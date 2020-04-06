@@ -1,7 +1,14 @@
 import 'package:covid19app/presentation/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'injection_container.dart' as di;
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await di.init();
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
