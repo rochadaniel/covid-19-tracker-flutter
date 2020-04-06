@@ -3,7 +3,12 @@ import 'package:covid19app/presentation/screens/main/pages/world_page.dart';
 import 'package:covid19app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
+
+import '../../../injection_container.dart';
+import 'main_bloc.dart';
+import 'main_event.dart';
 
 /// References
 /// Save Page state: https://stackoverflow.com/a/55512883
@@ -17,6 +22,14 @@ class _MainScreenState extends State<MainScreen> {
 
   int _selectedIndex = 0;
 
+  MainBloc _mainBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _mainBloc = serviceLocator<MainBloc>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +38,15 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Constants.backgroundColor,
       ),
       body: Container(
-          color: Constants.foregroundColor,
+        color: Constants.foregroundColor,
+        child: BlocProvider(
+          create: (BuildContext context) =>
+          _mainBloc..add(GetTotalCoronaDetailsEvent()),
           child: IndexedStack(
             children: _pages,
             index: _selectedIndex,
-          )
+          ),
+        ),
       ),
       bottomNavigationBar: _bottomNavigationBar(_selectedIndex),
     );
