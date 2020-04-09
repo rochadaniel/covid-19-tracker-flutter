@@ -6,6 +6,9 @@ class GetSavedCountryNameUseCase {
   GetSavedCountryNameUseCase({this.repository});
 
   String call() {
-    return repository.getSavedCountryName();
+    print("[GetSavedCountryNameUseCase] Trying to find saved CountryName");
+    final result = repository.getSavedCountryName();
+    print("[GetSavedCountryNameUseCase] Found saved CountryName: $result");
+    return result;
   }
 }

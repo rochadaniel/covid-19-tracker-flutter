@@ -119,7 +119,7 @@ class GroupedCardViewDetails extends StatelessWidget {
             flex: 2,
             child: _buildColorCard(
                 Constants.TOTAL_TESTS_STRING,
-                NumberUtils.formatDecimalPlaces(countryCoronaModel.totalTests),
+                NumberUtils.formatDecimalPlaces(countryCoronaModel.tests),
                 Color(0xFF765d69)),
           ),
           Expanded(

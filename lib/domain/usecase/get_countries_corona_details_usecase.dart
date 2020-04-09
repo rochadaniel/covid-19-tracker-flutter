@@ -7,6 +7,10 @@ class GetCountriesCoronaDetailsUseCase {
   GetCountriesCoronaDetailsUseCase({this.repository});
 
   Future<List<CountryCoronaModel>> call() async {
-    return await repository.getCountriesDetails();
+    print("[GetCountriesCoronaDetailsUseCase] Trying to find countries list");
+    final result = await repository.getCountriesDetails();
+    print("[GetCountriesCoronaDetailsUseCase] countries list result: ${result.length.toString()}");
+
+    return result;
   }
 }

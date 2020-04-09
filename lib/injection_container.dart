@@ -1,3 +1,4 @@
+import 'package:covid19app/domain/usecase/get_world_corona_details_usecase.dart';
 import 'package:covid19app/presentation/screens/main/main_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,38 +24,43 @@ Future<void> init() async {
 
   // Data sources
   serviceLocator.registerFactory<CoronaRemoteDataSource>(
-        () => CoronaRemoteDataSource(herokuApi: serviceLocator()),
+    () => CoronaRemoteDataSource(herokuApi: serviceLocator()),
   );
 
   serviceLocator.registerFactory<CoronaLocalDataSource>(
-        () => CoronaLocalDataSource(sharedPreferences: serviceLocator()),
+    () => CoronaLocalDataSource(sharedPreferences: serviceLocator()),
   );
 
   //Repository
   serviceLocator.registerFactory<CoronaRepository>(
-        () => CoronaRepositoryImpl(
+    () => CoronaRepositoryImpl(
         remoteDataSource: serviceLocator(), localDataSource: serviceLocator()),
   );
 
   // Use cases
   serviceLocator.registerFactory(
-        () => GetCountriesCoronaDetailsUseCase(repository: serviceLocator()),
+    () => GetCountriesCoronaDetailsUseCase(repository: serviceLocator()),
   );
 
   serviceLocator.registerFactory(
-        () => GetSavedCountryNameUseCase(repository: serviceLocator()),
+    () => GetSavedCountryNameUseCase(repository: serviceLocator()),
   );
 
   serviceLocator.registerFactory(
-        () => SaveCountryNameUseCase(repository: serviceLocator()),
+    () => SaveCountryNameUseCase(repository: serviceLocator()),
+  );
+
+  serviceLocator.registerFactory(
+    () => GetWorldCoronaDetailsUseCase(repository: serviceLocator()),
   );
 
   //BloC
   serviceLocator.registerFactory(
-        () => MainBloc(
+    () => MainBloc(
       getCountriesCoronaDetailsUseCase: serviceLocator(),
       getSavedCountryNameUseCase: serviceLocator(),
       saveCountryNameUseCase: serviceLocator(),
+      getWorldCoronaDetailsUseCase: serviceLocator(),
     ),
   );
 }

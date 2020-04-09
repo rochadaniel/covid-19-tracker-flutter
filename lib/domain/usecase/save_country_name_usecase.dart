@@ -6,6 +6,10 @@ class SaveCountryNameUseCase {
   SaveCountryNameUseCase({this.repository});
 
   String call(String countryName) {
-    return repository.saveCountryName(countryName);
+    print("[GetTotalCoronaDetailsEvent] Trying to save CountryName");
+    final result = repository.saveCountryName(countryName);
+    print("[GetTotalCoronaDetailsEvent] CountryName saved: $result");
+
+    return result;
   }
 }

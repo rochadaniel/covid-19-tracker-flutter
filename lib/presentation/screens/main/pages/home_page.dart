@@ -34,7 +34,9 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _showErrorView() {
-    return Text(Constants.DEFAULT_ERROR_STRING);
+    return Center(
+        child: Text(Constants.DEFAULT_ERROR_STRING),
+    );
   }
 
   Widget _showHomeView(CountryCoronaModel countryCoronaModel) {
@@ -43,7 +45,13 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            CardViewGraphStats(countryCoronaModel: countryCoronaModel),
+            CardViewGraphStats(
+              cases: countryCoronaModel.cases,
+              active: countryCoronaModel.active,
+              recovered: countryCoronaModel.recovered,
+              deaths: countryCoronaModel.deaths,
+              countryName: countryCoronaModel.country,
+            ),
             GroupedCardViewDetails(
               countryCoronaModel: countryCoronaModel,
               isComplete: false,

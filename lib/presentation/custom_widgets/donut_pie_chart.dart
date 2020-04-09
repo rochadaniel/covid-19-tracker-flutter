@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class DonutPieChart extends StatelessWidget {
-  final int totalCases;
+  final double totalCases;
   final List<PieChartUIModel> models;
   final bool animate;
 
@@ -71,7 +71,7 @@ class DonutPieChart extends StatelessWidget {
 
 class PieChartUIModel {
   final String name;
-  final int value;
+  final double value;
   final charts.Color color;
 
   PieChartUIModel(this.name, this.value, this.color);

@@ -1,4 +1,5 @@
 import 'package:covid19app/presentation/screens/main/pages/home_page.dart';
+import 'package:covid19app/presentation/screens/main/pages/search_page.dart';
 import 'package:covid19app/presentation/screens/main/pages/world_page.dart';
 import 'package:covid19app/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final List<Widget> _pages = [HomePage(), WorldPage()];
+  final List<Widget> _pages = [HomePage(), WorldPage(), SearchPage()];
 
   int _selectedIndex = 0;
 
@@ -63,6 +64,8 @@ class _MainScreenState extends State<MainScreen> {
           icon: Icon(LineIcons.home), title: Text('Home')),
       BottomNavigationBarItem(
           icon: Icon(LineIcons.globe), title: Text('World')),
+      BottomNavigationBarItem(
+          icon: Icon(LineIcons.search), title: Text('Search')),
     ],
   );
 }

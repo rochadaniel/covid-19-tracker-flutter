@@ -2,7 +2,7 @@ import 'dart:ui';
 
 class Constants {
   //API
-  static const String HEROKU_ENDPOINT = "https://coronavirus-19-api.herokuapp.com/";
+  static const String HEROKU_ENDPOINT = "https://corona.lmao.ninja/";
 
   //Colors
   static const Color backgroundColor = Color(0xff272936);
@@ -20,7 +20,7 @@ class Constants {
   static const String PER_ONE_DEATHS_CASES_STRING = "Deaths per one million";
   static const String PER_ONE_TESTS_CASES_STRING = "Tests per one million";
   static const String LOADING_STRING = "Loading...";
-  static const String DEFAULT_ERROR_STRING = "This operation could not be performed. Tente novamente";
+  static const String DEFAULT_ERROR_STRING = "This operation could not be performed. Try again.";
   static const String DEFAULT_COUNTRY = "Brazil";
   static const String WORLD_COUNTRY_NAME = "World";
 }

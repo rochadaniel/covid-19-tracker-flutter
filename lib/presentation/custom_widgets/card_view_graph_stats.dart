@@ -1,5 +1,4 @@
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:covid19app/domain/model/country_corona_model.dart';
 import 'package:covid19app/utils/constants.dart';
 import 'package:covid19app/utils/number_utils.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +7,15 @@ import 'package:flutter/widgets.dart';
 import 'donut_pie_chart.dart';
 
 class CardViewGraphStats extends StatelessWidget {
-  final CountryCoronaModel countryCoronaModel;
+  final double cases;
+  final double active;
+  final double recovered;
+  final double deaths;
+  final String countryName;
 
-  CardViewGraphStats({this.countryCoronaModel});
+
+  CardViewGraphStats({this.cases, this.active, this.recovered, this.deaths,
+      this.countryName});
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +41,7 @@ class CardViewGraphStats extends StatelessWidget {
                     padding: EdgeInsets.only(top: 16.0, bottom: 8.0),
                     alignment: Alignment.center,
                     child: Text(
-                      countryCoronaModel.country == Constants.WORLD_COUNTRY_NAME
-                          ? Constants.WORLD_COUNTRY_NAME
-                          : countryCoronaModel.country,
+                      this.countryName,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -50,7 +53,7 @@ class CardViewGraphStats extends StatelessWidget {
                     width: 250,
                     height: 250,
                     child: DonutPieChart(
-                      totalCases: this.countryCoronaModel.cases,
+                      totalCases: this.cases,
                       models: _makeChartModels(),
                       animate: false,
                     ),
@@ -67,17 +70,17 @@ class CardViewGraphStats extends StatelessWidget {
                           _buildChartDetails(
                               Constants.ACTIVE_CASES_STRING,
                               NumberUtils.formatDecimalPlaces(
-                                  this.countryCoronaModel.active),
+                                  this.active),
                               Colors.blue),
                           _buildChartDetails(
                               Constants.RECOVERED_CASES_STRING,
                               NumberUtils.formatDecimalPlaces(
-                                  this.countryCoronaModel.recovered),
+                                  this.recovered),
                               Colors.green),
                           _buildChartDetails(
                             Constants.DEATHS_CASES_STRING,
                             NumberUtils.formatDecimalPlaces(
-                                this.countryCoronaModel.deaths),
+                                this.deaths),
                             Colors.red,
                           )
                         ],
@@ -140,15 +143,15 @@ class CardViewGraphStats extends StatelessWidget {
     return [
       new PieChartUIModel(
           Constants.ACTIVE_CASES_STRING,
-          this.countryCoronaModel.active,
+          this.active,
           charts.MaterialPalette.blue.shadeDefault),
       new PieChartUIModel(
           Constants.RECOVERED_CASES_STRING,
-          this.countryCoronaModel.recovered,
+          this.recovered,
           charts.MaterialPalette.green.shadeDefault),
       new PieChartUIModel(
           Constants.DEATHS_CASES_STRING,
-          this.countryCoronaModel.deaths,
+          this.deaths,
           charts.MaterialPalette.red.shadeDefault),
     ];
   }
