@@ -28,6 +28,12 @@ class CoronaRepositoryImpl extends CoronaRepository {
   }
 
   @override
+  Future<HistoricalTimelineCoronaModel> getWorldHistoricalDetails() async {
+    return await remoteDataSource.getWorldHistoricalDetails();
+  }
+
+
+  @override
   String getSavedCountryName() {
     return localDataSource.getSavedCountryName();
   }

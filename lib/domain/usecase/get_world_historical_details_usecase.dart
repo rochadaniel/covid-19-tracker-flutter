@@ -6,10 +6,10 @@ class GetWorldHistoricalCoronaDetailsUseCase {
 
   GetWorldHistoricalCoronaDetailsUseCase({this.repository});
 
-  Future<HistoricalCoronaModel> call() async {
+  Future<HistoricalTimelineCoronaModel> call() async {
     print("[GetWorldHistoricalCoronaDetailsUseCase] Trying to find world historical details");
-    final result = await repository.getCountryHistoricalDetails("all");
-    print("[GetWorldHistoricalCoronaDetailsUseCase] Historical details found: ${result.country}");
+    final result = await repository.getWorldHistoricalDetails();
+    print("[GetWorldHistoricalCoronaDetailsUseCase] Historical details found: ${result.toString()}");
 
     return result;
   }

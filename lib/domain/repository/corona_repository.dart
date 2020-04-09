@@ -9,6 +9,8 @@ abstract class CoronaRepository {
 
   Future<HistoricalCoronaModel> getCountryHistoricalDetails(String countryName);
 
+  Future<HistoricalTimelineCoronaModel> getWorldHistoricalDetails();
+
   saveCountryName(String countryName);
 
   String getSavedCountryName();

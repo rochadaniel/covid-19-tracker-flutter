@@ -47,4 +47,15 @@ class CoronaRemoteDataSource {
       throw ("Default error message: ${er.toString()}");
     }
   }
+
+  Future<HistoricalTimelineCoronaModel> getWorldHistoricalDetails() async {
+    try {
+      Response response = await herokuApi.get("/v2/v2/historical/all?lastdays=30");
+
+      return HistoricalTimelineCoronaModel.fromJson(response.data);
+    } catch (er) {
+      if (er is DioError) {}
+      throw ("Default error message: ${er.toString()}");
+    }
+  }
 }
