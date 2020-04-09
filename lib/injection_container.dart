@@ -1,4 +1,6 @@
+import 'package:covid19app/domain/usecase/get_country_historical_details_usecase.dart';
 import 'package:covid19app/domain/usecase/get_world_corona_details_usecase.dart';
+import 'package:covid19app/domain/usecase/get_world_historical_details_usecase.dart';
 import 'package:covid19app/presentation/screens/main/main_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,6 +54,14 @@ Future<void> init() async {
 
   serviceLocator.registerFactory(
     () => GetWorldCoronaDetailsUseCase(repository: serviceLocator()),
+  );
+
+  serviceLocator.registerFactory(
+        () => GetCountryHistoricalCoronaDetailsUseCase(repository: serviceLocator()),
+  );
+
+  serviceLocator.registerFactory(
+        () => GetWorldHistoricalCoronaDetailsUseCase(repository: serviceLocator()),
   );
 
   //BloC

@@ -1,4 +1,5 @@
 import 'package:covid19app/domain/model/country_corona_model.dart';
+import 'package:covid19app/domain/model/historical_corona_model.dart';
 import 'package:covid19app/domain/model/world_corona_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
@@ -30,6 +31,17 @@ class CoronaRemoteDataSource {
       Response response = await herokuApi.get("/all");
 
       return WorldCoronaModel.fromJson(response.data);
+    } catch (er) {
+      if (er is DioError) {}
+      throw ("Default error message: ${er.toString()}");
+    }
+  }
+
+  Future<HistoricalCoronaModel> getHistoricalCoronaModel(String countryName) async {
+    try {
+      Response response = await herokuApi.get("/v2/v2/historical/${countryName.toLowerCase()}?lastdays=30");
+
+      return HistoricalCoronaModel.fromJson(response.data);
     } catch (er) {
       if (er is DioError) {}
       throw ("Default error message: ${er.toString()}");
