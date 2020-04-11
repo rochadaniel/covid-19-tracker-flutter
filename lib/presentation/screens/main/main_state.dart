@@ -1,3 +1,4 @@
+import 'package:covid19app/domain/model/historical_corona_model.dart';
 import 'package:covid19app/domain/model/total_corona_details_model.dart';
 import 'package:meta/meta.dart';
 

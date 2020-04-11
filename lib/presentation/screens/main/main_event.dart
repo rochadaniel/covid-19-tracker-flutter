@@ -7,8 +7,6 @@ abstract class MainEvent {
 
 class GetTotalCoronaDetailsEvent extends MainEvent {}
 
-class GetWorldHistoricalCoronaDetailsEvent extends MainEvent {}
-
 class GetCountryHistoricalCoronaDetailsEvent extends MainEvent {
   @required final String countryName;
 
