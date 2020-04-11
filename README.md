@@ -4,9 +4,11 @@ This is an open project to study the Flutter framework that uses [Novel Covid - 
 
 <br/>
 <p>
-<img src="https://github.com/rochadaniel/covid-19-tracker-flutter/blob/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-04-06%20at%2008.29.07.png" alt="sc1" width="200">
-<img src="https://github.com/rochadaniel/covid-19-tracker-flutter/blob/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-04-06%20at%2008.29.17.png" alt="sc2" width="200">
-<img src="https://github.com/rochadaniel/covid-19-tracker-flutter/blob/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%202020-04-06%20at%2008.29.33.png" alt="sc3" width="200">
+<img src="https://github.com/rochadaniel/covid-19-tracker-flutter/blob/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%20Home.png" alt="sc1" width="200">
+<img src="https://github.com/rochadaniel/covid-19-tracker-flutter/blob/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%20Home-2.png.png" alt="sc2" width="200">
+<img src="https://github.com/rochadaniel/covid-19-tracker-flutter/blob/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%20World.png.png" alt="sc3" width="200">
+<img src="https://github.com/rochadaniel/covid-19-tracker-flutter/blob/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%20Search.png.png" alt="sc4" width="200">
+<img src="https://github.com/rochadaniel/covid-19-tracker-flutter/blob/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20Max%20-%20Details.png.png" alt="sc5" width="200">
 </p>
 
 ## Build Setup
