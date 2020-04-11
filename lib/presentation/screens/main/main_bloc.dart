@@ -19,16 +19,12 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   final GetSavedCountryNameUseCase getSavedCountryNameUseCase;
   final SaveCountryNameUseCase saveCountryNameUseCase;
   final GetWorldCoronaDetailsUseCase getWorldCoronaDetailsUseCase;
-  final GetWorldHistoricalCoronaDetailsUseCase getWorldHistoricalCoronaDetailsUseCase;
-  final GetCountryHistoricalCoronaDetailsUseCase getCountryHistoricalCoronaDetailsUseCase;
 
   MainBloc({
     this.getCountriesCoronaDetailsUseCase,
     this.getSavedCountryNameUseCase,
     this.saveCountryNameUseCase,
     this.getWorldCoronaDetailsUseCase,
-    this.getWorldHistoricalCoronaDetailsUseCase,
-    this.getCountryHistoricalCoronaDetailsUseCase
   });
 
   @override
@@ -39,42 +35,46 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     MainEvent event,
   ) async* {
     if (event is GetTotalCoronaDetailsEvent) {
-      print("[GetTotalCoronaDetailsEvent] LoadingState");
-      yield LoadingMainState();
+      yield* _handleGetTotalCoronaDetailsEvent(event);
+    }
+  }
 
-      try {
-        var list = await Future.wait([
-          getWorldCoronaDetailsUseCase.call(),
-          getCountriesCoronaDetailsUseCase.call()
-        ]);
+  Stream<MainState> _handleGetTotalCoronaDetailsEvent(GetTotalCoronaDetailsEvent event) async* {
+    print("[GetTotalCoronaDetailsEvent] LoadingState");
+    yield LoadingMainState();
 
-        print("[GetTotalCoronaDetailsEvent] resultado: ${list.length}");
+    try {
+      var list = await Future.wait([
+        getWorldCoronaDetailsUseCase.call(),
+        getCountriesCoronaDetailsUseCase.call()
+      ]);
 
-        WorldCoronaModel worldCoronaModel = list[0];
-        List<CountryCoronaModel> countriesCoronaModel = list[1];
+      print("[GetTotalCoronaDetailsEvent] resultado: ${list.length}");
 
-        String savedCountryName = getSavedCountryNameUseCase.call();
+      WorldCoronaModel worldCoronaModel = list[0];
+      List<CountryCoronaModel> countriesCoronaModel = list[1];
 
-        if (savedCountryName == null) {
-          savedCountryName = Constants.DEFAULT_COUNTRY;
+      String savedCountryName = getSavedCountryNameUseCase.call();
 
-          saveCountryNameUseCase.call(savedCountryName);
-        }
+      if (savedCountryName == null) {
+        savedCountryName = Constants.DEFAULT_COUNTRY;
 
-        print("[GetTotalCoronaDetailsEvent] Trying to find saved CountryName in countries list");
-        final savedCountry =
-            countriesCoronaModel.firstWhere((item) => item.country == savedCountryName);
-        print("[GetTotalCoronaDetailsEvent] CountryName in countries list found with ${savedCountry.cases.toString()} cases");
-
-        TotalCoronaDetailsModel totalCoronaDetailsModel =
-            TotalCoronaDetailsModel(countriesCoronaModel, worldCoronaModel, savedCountry);
-
-        print("[GetTotalCoronaDetailsEvent] SuccessState");
-        yield SuccessMainState(totalCoronaDetailsModel);
-      } catch (error) {
-        print("[GetTotalCoronaDetailsEvent] ErrorState: ${error.toString()}");
-        yield ErrorMainState();
+        saveCountryNameUseCase.call(savedCountryName);
       }
+
+      print("[GetTotalCoronaDetailsEvent] Trying to find saved CountryName in countries list");
+      final savedCountry =
+      countriesCoronaModel.firstWhere((item) => item.country == savedCountryName);
+      print("[GetTotalCoronaDetailsEvent] CountryName in countries list found with ${savedCountry.cases.toString()} cases");
+
+      TotalCoronaDetailsModel totalCoronaDetailsModel =
+      TotalCoronaDetailsModel(countriesCoronaModel, worldCoronaModel, savedCountry);
+
+      print("[GetTotalCoronaDetailsEvent] SuccessState");
+      yield SuccessMainState(totalCoronaDetailsModel);
+    } catch (error) {
+      print("[GetTotalCoronaDetailsEvent] ErrorState: ${error.toString()}");
+      yield ErrorMainState();
     }
   }
 }
