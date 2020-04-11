@@ -1,5 +1,4 @@
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:covid19app/domain/model/historical_corona_model.dart';
 
 /// Bar chart with series legend example
 import 'package:flutter/material.dart';
@@ -11,20 +10,6 @@ class SimpleLineChart extends StatelessWidget {
   final bool animate;
 
   SimpleLineChart(this.models, this.chartName, this.lineColor, {this.animate});
-
-  static List<SimpleLineChartUIModel> _convertFromHistoricalModel(
-      Map<String, double> historicalTimelineCoronaModel) {
-    List<SimpleLineChartUIModel> groupList = List();
-
-    int id = -1;
-
-    historicalTimelineCoronaModel.forEach((key, value) {
-      id++;
-      groupList.add(SimpleLineChartUIModel(id, value));
-    });
-
-    return groupList;
-  }
 
   @override
   Widget build(BuildContext context) {

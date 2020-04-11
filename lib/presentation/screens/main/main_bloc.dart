@@ -5,10 +5,8 @@ import 'package:covid19app/domain/model/country_corona_model.dart';
 import 'package:covid19app/domain/model/total_corona_details_model.dart';
 import 'package:covid19app/domain/model/world_corona_model.dart';
 import 'package:covid19app/domain/usecase/get_countries_corona_details_usecase.dart';
-import 'package:covid19app/domain/usecase/get_country_historical_details_usecase.dart';
 import 'package:covid19app/domain/usecase/get_saved_country_name_usecase.dart';
 import 'package:covid19app/domain/usecase/get_world_corona_details_usecase.dart';
-import 'package:covid19app/domain/usecase/get_world_historical_details_usecase.dart';
 import 'package:covid19app/domain/usecase/save_country_name_usecase.dart';
 import 'package:covid19app/utils/constants.dart';
 
