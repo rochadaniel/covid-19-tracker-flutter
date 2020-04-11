@@ -39,7 +39,7 @@ class CoronaRemoteDataSource {
 
   Future<HistoricalCoronaModel> getHistoricalCoronaModel(String countryName) async {
     try {
-      Response response = await herokuApi.get("/v2/v2/historical/${countryName.toLowerCase()}?lastdays=30");
+      Response response = await herokuApi.get("/v2/historical/${countryName.toLowerCase()}");
 
       return HistoricalCoronaModel.fromJson(response.data);
     } catch (er) {
@@ -50,7 +50,7 @@ class CoronaRemoteDataSource {
 
   Future<HistoricalTimelineCoronaModel> getWorldHistoricalDetails() async {
     try {
-      Response response = await herokuApi.get("/v2/v2/historical/all?lastdays=30");
+      Response response = await herokuApi.get("/v2/historical/all");
 
       return HistoricalTimelineCoronaModel.fromJson(response.data);
     } catch (er) {
