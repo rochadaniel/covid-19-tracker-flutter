@@ -11,7 +11,7 @@ class CoronaRemoteDataSource {
 
   Future<List<CountryCoronaModel>> getCountriesDetails() async {
     try {
-      Response response = await herokuApi.get("/countries");
+      Response response = await herokuApi.get("v2/countries");
 
       List<CountryCoronaModel> result = new List<CountryCoronaModel>();
 
@@ -28,7 +28,7 @@ class CoronaRemoteDataSource {
 
   Future<WorldCoronaModel> getWorldDetails() async {
     try {
-      Response response = await herokuApi.get("/all");
+      Response response = await herokuApi.get("v2/all");
 
       return WorldCoronaModel.fromJson(response.data);
     } catch (er) {
