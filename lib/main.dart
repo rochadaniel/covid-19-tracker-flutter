@@ -1,5 +1,6 @@
 import 'package:covid19app/presentation/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Covid-19',
       theme: ThemeData(
         // This is the theme of your application.
@@ -27,6 +28,10 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        // This makes the visual density adapt to the platform that you run
+        // the app on. For desktop platforms, the controls will be smaller and
+        // closer together (more dense) than on mobile platforms.
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MainScreen(),
     );

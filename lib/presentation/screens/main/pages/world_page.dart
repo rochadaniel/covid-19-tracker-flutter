@@ -7,8 +7,8 @@ import 'package:covid19app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
-import '../../../../injection_container.dart';
 import '../bloc.dart';
 
 class WorldPage extends StatefulWidget {
@@ -22,10 +22,9 @@ class _WorldPageState extends State<WorldPage> {
   @override
   void initState() {
     super.initState();
-    final getWorldHistoricalCoronaDetailsUseCase =
-        serviceLocator<GetWorldHistoricalCoronaDetailsUseCase>();
-    getWorldHistoricalCoronaDetailsFuture =
-        getWorldHistoricalCoronaDetailsUseCase.call();
+    final getWorldHistoricalCoronaDetailsUseCase = Get.find<GetWorldHistoricalCoronaDetailsUseCase>();
+
+    getWorldHistoricalCoronaDetailsFuture = getWorldHistoricalCoronaDetailsUseCase.call();
   }
 
   @override

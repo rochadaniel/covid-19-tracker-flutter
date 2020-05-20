@@ -8,8 +8,8 @@ import 'package:covid19app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
-import '../../../../injection_container.dart';
 import '../bloc.dart';
 class HomePage extends StatefulWidget {
   @override
@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildHistoricalView(String countryName) {
-    final getCountryHistoricalCoronaDetailsUseCase = serviceLocator<GetCountryHistoricalCoronaDetailsUseCase>();
+    final getCountryHistoricalCoronaDetailsUseCase = Get.find<GetCountryHistoricalCoronaDetailsUseCase>();
     final getCountryHistoricalCoronaDetailsFuture = getCountryHistoricalCoronaDetailsUseCase.call(countryName);
 
     return FutureBuilder(

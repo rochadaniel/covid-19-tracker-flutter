@@ -6,6 +6,7 @@ import 'package:covid19app/presentation/custom_widgets/grouped_card_view_histori
 import 'package:covid19app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 import '../../../injection_container.dart';
 
@@ -25,8 +26,8 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    final getCountryHistoricalCoronaDetailsUseCase =
-    serviceLocator<GetCountryHistoricalCoronaDetailsUseCase>();
+
+    final getCountryHistoricalCoronaDetailsUseCase = Get.find<GetCountryHistoricalCoronaDetailsUseCase>();
     getCountryHistoricalCoronaDetailsFuture = getCountryHistoricalCoronaDetailsUseCase.call(widget.countryCoronaModel.country);
   }
 

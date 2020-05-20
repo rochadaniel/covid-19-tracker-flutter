@@ -5,9 +5,9 @@ import 'package:covid19app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
-import '../../../injection_container.dart';
 import 'main_bloc.dart';
 import 'main_event.dart';
 
@@ -28,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _mainBloc = serviceLocator<MainBloc>();
+    _mainBloc = Get.find<MainBloc>();
   }
 
   @override
