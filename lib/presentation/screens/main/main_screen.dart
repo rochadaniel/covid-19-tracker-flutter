@@ -4,12 +4,10 @@ import 'package:covid19app/presentation/screens/main/pages/world_page.dart';
 import 'package:covid19app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
-import 'main_bloc.dart';
-import 'main_event.dart';
+import 'main_controller.dart';
 
 /// References
 /// Save Page state: https://stackoverflow.com/a/55512883
@@ -23,14 +21,6 @@ class _MainScreenState extends State<MainScreen> {
 
   int _selectedIndex = 0;
 
-  MainBloc _mainBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _mainBloc = Get.find<MainBloc>();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,32 +30,42 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: Container(
         color: Constants.foregroundColor,
-        child: BlocProvider(
-          create: (BuildContext context) =>
-          _mainBloc..add(GetTotalCoronaDetailsEvent()),
-          child: IndexedStack(
-            children: _pages,
-            index: _selectedIndex,
-          ),
-        ),
+        child: GetBuilder<MainController>(
+            init: MainController(
+              getCountriesCoronaDetailsUseCase: Get.find(),
+              getSavedCountryNameUseCase: Get.find(),
+              saveCountryNameUseCase: Get.find(),
+              getWorldCoronaDetailsUseCase: Get.find()
+            ),
+            initState: (_) {
+              print("[main_screen] MainController initState");
+              MainController.to.load();
+            },
+            builder: (_) {
+              print("[main_screen] MainController Builder");
+              return IndexedStack(
+                children: _pages,
+                index: _selectedIndex,
+              );
+            }),
       ),
       bottomNavigationBar: _bottomNavigationBar(_selectedIndex),
     );
   }
 
   Widget _bottomNavigationBar(int selectedIndex) => BottomNavigationBar(
-    onTap: (int index) => setState(() => _selectedIndex = index),
-    currentIndex: _selectedIndex,
-    backgroundColor: Constants.backgroundColor,
-    selectedItemColor: Colors.white,
-    unselectedItemColor: Colors.grey[500],
-    items: [
-      BottomNavigationBarItem(
-          icon: Icon(LineIcons.home), title: Text('Home')),
-      BottomNavigationBarItem(
-          icon: Icon(LineIcons.globe), title: Text('World')),
-      BottomNavigationBarItem(
-          icon: Icon(LineIcons.search), title: Text('Search')),
-    ],
-  );
+        onTap: (int index) => setState(() => _selectedIndex = index),
+        currentIndex: _selectedIndex,
+        backgroundColor: Constants.backgroundColor,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey[500],
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(LineIcons.home), title: Text('Home')),
+          BottomNavigationBarItem(
+              icon: Icon(LineIcons.globe), title: Text('World')),
+          BottomNavigationBarItem(
+              icon: Icon(LineIcons.search), title: Text('Search')),
+        ],
+      );
 }

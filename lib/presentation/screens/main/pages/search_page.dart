@@ -1,14 +1,14 @@
 import 'package:covid19app/domain/model/country_corona_model.dart';
+import 'package:covid19app/domain/model/response.dart';
 import 'package:covid19app/presentation/screens/country/country_details_screen.dart';
 import 'package:covid19app/utils/constants.dart';
 import 'package:covid19app/utils/number_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
-import '../bloc.dart';
-import '../main_bloc.dart';
+import '../main_controller.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -41,17 +41,27 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Container(
       color: Constants.foregroundColor,
-      child: BlocBuilder<MainBloc, MainState>(builder: (context, state) {
-        if (state is InitialMainState) {
-          return Text("");
-        } else if (state is SuccessMainState) {
-          return _showCountriesView(state.totalCoronaDetailsModel.countries);
-        } else if (state is LoadingMainState) {
-          return _showLoadingView();
-        } else {
-          return _showErrorView();
-        }
-      }),
+      child: GetBuilder<MainController>(
+        builder: (_) {
+          print("[search_page] MainController Builder");
+          var value = MainController.to.totalCoronaDetailsModel;
+          switch (value.status) {
+            case Status.EMPTY:
+              return Container();
+              break;
+            case Status.LOADING:
+              return _showLoadingView();
+              break;
+            case Status.COMPLETED:
+              return _showCountriesView(value.data.countries);
+              break;
+            case Status.ERROR:
+              return _showErrorView();
+              break;
+          }
+          return Container();
+        },
+      ),
     );
   }
 
@@ -79,15 +89,17 @@ class _SearchPageState extends State<SearchPage> {
               cursorColor: Colors.white,
               style: TextStyle(color: Colors.white),
               decoration: new InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                  labelText: "Search",
-                  labelStyle: TextStyle(color: Colors.grey[200]),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 1,color: Colors.white, style: BorderStyle.solid)
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.white,
                 ),
+                labelText: "Search",
+                labelStyle: TextStyle(color: Colors.grey[200]),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        width: 1,
+                        color: Colors.white,
+                        style: BorderStyle.solid)),
               ),
               controller: controller,
             ),

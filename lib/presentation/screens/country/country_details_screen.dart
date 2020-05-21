@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import '../../../injection_container.dart';
-
 class CountryDetailsScreen extends StatefulWidget {
   final CountryCoronaModel countryCoronaModel;
 

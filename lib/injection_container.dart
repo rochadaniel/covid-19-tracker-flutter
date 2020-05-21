@@ -1,7 +1,6 @@
 import 'package:covid19app/domain/usecase/get_country_historical_details_usecase.dart';
 import 'package:covid19app/domain/usecase/get_world_corona_details_usecase.dart';
 import 'package:covid19app/domain/usecase/get_world_historical_details_usecase.dart';
-import 'package:covid19app/presentation/screens/main/main_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +24,7 @@ Future<void> init() async {
 
   // Api
 //  serviceLocator.registerFactory(() => ApiHelper().herokuApi);
-  Get.create<Dio>(() => ApiHelper().herokuApi);
+  Get.lazyPut<Dio>(() => ApiHelper().herokuApi);
 
   // Data sources
 //  serviceLocator.registerFactory<CoronaRemoteDataSource>(
@@ -110,12 +109,12 @@ Future<void> init() async {
 //    ),
 //  );
 
-  Get.create(
-        () => MainBloc(
-          getCountriesCoronaDetailsUseCase: Get.find<GetCountriesCoronaDetailsUseCase>(),
-          getSavedCountryNameUseCase: Get.find<GetSavedCountryNameUseCase>(),
-          saveCountryNameUseCase: Get.find<SaveCountryNameUseCase>(),
-          getWorldCoronaDetailsUseCase: Get.find<GetWorldCoronaDetailsUseCase>(),
-        ),
-  );
+//  Get.create(
+//        () => MainBloc(
+//          getCountriesCoronaDetailsUseCase: Get.find<GetCountriesCoronaDetailsUseCase>(),
+//          getSavedCountryNameUseCase: Get.find<GetSavedCountryNameUseCase>(),
+//          saveCountryNameUseCase: Get.find<SaveCountryNameUseCase>(),
+//          getWorldCoronaDetailsUseCase: Get.find<GetWorldCoronaDetailsUseCase>(),
+//        ),
+//  );
 }

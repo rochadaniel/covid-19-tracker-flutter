@@ -1,4 +1,5 @@
 import 'package:covid19app/domain/model/historical_corona_model.dart';
+import 'package:covid19app/domain/model/response.dart';
 import 'package:covid19app/domain/model/world_corona_model.dart';
 import 'package:covid19app/domain/usecase/get_world_historical_details_usecase.dart';
 import 'package:covid19app/presentation/custom_widgets/card_view_graph_stats.dart';
@@ -6,10 +7,9 @@ import 'package:covid19app/presentation/custom_widgets/grouped_card_view_histori
 import 'package:covid19app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-import '../bloc.dart';
+import '../main_controller.dart';
 
 class WorldPage extends StatefulWidget {
   @override
@@ -31,18 +31,27 @@ class _WorldPageState extends State<WorldPage> {
   Widget build(BuildContext context) {
     return Container(
       color: Constants.foregroundColor,
-      child: BlocBuilder<MainBloc, MainState>(builder: (context, state) {
-        if (state is InitialMainState) {
-          return Text("");
-        } else if (state is SuccessMainState) {
-          return _showCountriesView(
-              state.totalCoronaDetailsModel.worldCoronaModel);
-        } else if (state is LoadingMainState) {
-          return _showLoadingView();
-        } else {
-          return _showErrorView();
-        }
-      }),
+      child: GetBuilder<MainController>(
+        builder: (_) {
+          print("[search_page] MainController Builder");
+          var value = MainController.to.totalCoronaDetailsModel;
+          switch (value.status) {
+            case Status.EMPTY:
+              return Container();
+              break;
+            case Status.LOADING:
+              return _showLoadingView();
+              break;
+            case Status.COMPLETED:
+              return _showCountriesView(value.data.worldCoronaModel);
+              break;
+            case Status.ERROR:
+              return _showErrorView();
+              break;
+          }
+          return Container();
+        },
+      ),
     );
   }
 

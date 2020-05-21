@@ -1,16 +1,16 @@
 import 'package:covid19app/domain/model/country_corona_model.dart';
 import 'package:covid19app/domain/model/historical_corona_model.dart';
+import 'package:covid19app/domain/model/response.dart';
 import 'package:covid19app/domain/usecase/get_country_historical_details_usecase.dart';
 import 'package:covid19app/presentation/custom_widgets/card_view_graph_stats.dart';
 import 'package:covid19app/presentation/custom_widgets/grouped_card_view_details.dart';
 import 'package:covid19app/presentation/custom_widgets/grouped_card_view_historical_stats.dart';
+import 'package:covid19app/presentation/screens/main/main_controller.dart';
 import 'package:covid19app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-import '../bloc.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -21,17 +21,27 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Container(
       color: Constants.foregroundColor,
-      child: BlocBuilder<MainBloc, MainState>(builder: (context, state) {
-        if (state is InitialMainState) {
-          return Text("");
-        } else if (state is SuccessMainState) {
-          return _showHomeView(state.totalCoronaDetailsModel.savedCountry);
-        } else if (state is LoadingMainState) {
-          return _showLoadingView();
-        } else {
-          return _showErrorView();
-        }
-      }),
+      child: GetBuilder<MainController>(
+        builder: (_) {
+          print("[home_page] MainController Builder");
+          var value = MainController.to.totalCoronaDetailsModel;
+          switch (value.status) {
+            case Status.EMPTY:
+              return Container();
+              break;
+            case Status.LOADING:
+              return _showLoadingView();
+              break;
+            case Status.COMPLETED:
+              return _showHomeView(value.data.savedCountry);
+              break;
+            case Status.ERROR:
+              return _showErrorView();
+              break;
+          }
+          return Container();
+        },
+      ),
     );
   }
 
