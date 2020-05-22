@@ -44,11 +44,8 @@ class _SearchPageState extends State<SearchPage> {
       child: GetBuilder<MainController>(
         builder: (_) {
           print("[search_page] MainController Builder");
-          var value = MainController.to.totalCoronaDetailsModel;
+          var value = MainController.to.totalCoronaDetailsModelResponse;
           switch (value.status) {
-            case Status.EMPTY:
-              return Container();
-              break;
             case Status.LOADING:
               return _showLoadingView();
               break;
