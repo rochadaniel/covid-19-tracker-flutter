@@ -36,5 +36,14 @@ This is an open project to study the Flutter framework that uses [Novel Covid - 
     ```
     [Understand code generation in Dart](https://medium.com/flutter-community/part-1-code-generation-in-dart-the-basics-3127f4c842cc)
 
+## 3rd party libraries used
+- [get](https://pub.dev/packages/get)
+- [json_annotation](https://pub.dev/packages/json_annotation)
+- [dio](https://pub.dev/packages/dio)
+- [line_icons](https://pub.dev/packages/line_icons)
+- [shared_preferences](https://pub.dev/packages/shared_preferences)
+- [charts_flutter](https://pub.dev/packages/charts_flutter)
+- [intl](https://pub.dev/packages/intl)
+
 ## License
-This project is licensed under an MIT license - see the [LICENSE.md] (LICENSE) file for details.
+This project is licensed under an MIT license - see the [LICENSE.md](LICENSE) file for details.
