@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 class MainController extends GetController {
   static MainController get to => Get.find();
 
-  Response<TotalCoronaDetailsModel> totalCoronaDetailsModel = Response.empty();
+  Response<TotalCoronaDetailsModel> totalCoronaDetailsModelResponse;
 
   final GetCountriesCoronaDetailsUseCase getCountriesCoronaDetailsUseCase;
   final GetSavedCountryNameUseCase getSavedCountryNameUseCase;
@@ -27,13 +27,9 @@ class MainController extends GetController {
   }) : super();
 
   void load() async {
-    totalCoronaDetailsModel = Response.loading();
+    print("[MainController - load] loading");
+    totalCoronaDetailsModelResponse = Response.loading();
     update(this);
-
-//    await Future.delayed(Duration(seconds: 5));
-//
-//    totalCoronaDetailsModel = Response.error("daniel");
-//    update(this);
 
     try {
       var list = await Future.wait([
@@ -41,7 +37,7 @@ class MainController extends GetController {
         getCountriesCoronaDetailsUseCase.call()
       ]);
 
-      print("[MainController - load] resultado: ${list.length}");
+      print("[MainController - load] result: ${list.length}");
 
       WorldCoronaModel worldCoronaModel = list[0];
       List<CountryCoronaModel> countriesCoronaModel = list[1];
@@ -54,38 +50,22 @@ class MainController extends GetController {
         saveCountryNameUseCase.call(savedCountryName);
       }
 
-      print("[MainController - load] Trying to find saved CountryName in countries list");
-      final savedCountry =
-      countriesCoronaModel.firstWhere((item) => item.country == savedCountryName);
-      print("[MainController - load] CountryName in countries list found with ${savedCountry.cases.toString()} cases");
+      print(
+          "[MainController - load] Trying to find saved CountryName in countries list");
+      final savedCountry = countriesCoronaModel
+          .firstWhere((item) => item.country == savedCountryName);
+      print(
+          "[MainController - load] CountryName in countries list found with ${savedCountry.cases.toString()} cases");
 
-      totalCoronaDetailsModel = Response.completed(TotalCoronaDetailsModel(countriesCoronaModel, worldCoronaModel, savedCountry));
+      totalCoronaDetailsModelResponse = Response.completed(TotalCoronaDetailsModel(countriesCoronaModel, worldCoronaModel, savedCountry));
 
       print("[MainController - load] SuccessState");
       update(this);
     } catch (error) {
-      totalCoronaDetailsModel = Response.error(error.toString());
+      totalCoronaDetailsModelResponse = Response.error(error.toString());
+
       print("[MainController - load] ErrorState: ${error.toString()}");
       update(this);
     }
   }
 }
-//class MainController extends RxController {
-//  static MainController get to => Get.find();
-//
-//  final Rx<Response<int>> totalCoronaDetailsModel = Response.empty().obs;
-//
-//  @override
-//  void onInit() {
-//    super.onInit();
-//
-////    loadTest();
-//  }
-//  void loadTest() async {
-//    totalCoronaDetailsModel.value = Response.loading();
-//
-//    Future.delayed(const Duration(milliseconds: 5000), () {
-//      totalCoronaDetailsModel.value = Response.error("daniel");
-//    });
-//  }
-//}
