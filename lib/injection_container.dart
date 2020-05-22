@@ -30,14 +30,14 @@ Future<void> init() async {
 //  serviceLocator.registerFactory<CoronaRemoteDataSource>(
 //    () => CoronaRemoteDataSource(herokuApi: serviceLocator()),
 //  );
-  Get.create<CoronaRemoteDataSource>(
+  Get.lazyPut<CoronaRemoteDataSource>(
     () => CoronaRemoteDataSource(herokuApi: Get.find<Dio>()),
   );
 
 //  serviceLocator.registerFactory<CoronaLocalDataSource>(
 //    () => CoronaLocalDataSource(sharedPreferences: serviceLocator()),
 //  );
-  Get.create<CoronaLocalDataSource>(
+  Get.lazyPut<CoronaLocalDataSource>(
     () =>
         CoronaLocalDataSource(sharedPreferences: Get.find<SharedPreferences>()),
   );
@@ -47,7 +47,7 @@ Future<void> init() async {
 //    () => CoronaRepositoryImpl(
 //        remoteDataSource: serviceLocator(), localDataSource: serviceLocator()),
 //  );
-  Get.create<CoronaRepository>(
+  Get.lazyPut<CoronaRepository>(
     () => CoronaRepositoryImpl(
       remoteDataSource: Get.find<CoronaRemoteDataSource>(),
       localDataSource: Get.find<CoronaLocalDataSource>(),
