@@ -1,7 +1,5 @@
-import 'package:covid19app/domain/model/historical_corona_model.dart';
 import 'package:covid19app/domain/model/response.dart';
 import 'package:covid19app/domain/model/world_corona_model.dart';
-import 'package:covid19app/domain/usecase/get_world_historical_details_usecase.dart';
 import 'package:covid19app/presentation/custom_widgets/card_view_graph_stats.dart';
 import 'package:covid19app/presentation/custom_widgets/grouped_card_view_historical_stats.dart';
 import 'package:covid19app/utils/constants.dart';
@@ -11,29 +9,14 @@ import 'package:get/get.dart';
 
 import '../main_controller.dart';
 
-class WorldPage extends StatefulWidget {
-  @override
-  _WorldPageState createState() => _WorldPageState();
-}
-
-class _WorldPageState extends State<WorldPage> {
-  Future getWorldHistoricalCoronaDetailsFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    final getWorldHistoricalCoronaDetailsUseCase = Get.find<GetWorldHistoricalCoronaDetailsUseCase>();
-
-    getWorldHistoricalCoronaDetailsFuture = getWorldHistoricalCoronaDetailsUseCase.call();
-  }
-
+class WorldPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Constants.foregroundColor,
       child: GetBuilder<MainController>(
         builder: (_) {
-          var value = MainController.to.worldCoronaModelResponse;
+          var value = _.worldCoronaModelResponse;
           print("**********[world_page] MainController Builder: ${value.toString()}");
           switch (value.status) {
             case Status.LOADING:
@@ -85,29 +68,33 @@ class _WorldPageState extends State<WorldPage> {
   }
 
   Widget _buildHistoricalView() {
-    return FutureBuilder(
-      future: getWorldHistoricalCoronaDetailsFuture,
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return Text("");
-          case ConnectionState.waiting:
+//    return Container();
+    return GetBuilder<MainController>(
+      id: '1',
+      initState: (_) {
+        print("________danuel");
+        MainController.to.loadHistoricalTimeline();
+      },
+      builder: (_) {
+        var value = _.historicalTimelineResponse;
+        print("**********[world_page] MainController Builder _buildHistoricalView: ${value?.toString()}");
+
+        switch (value?.status) {
+          case Status.LOADING:
             return Center(
               child: CircularProgressIndicator(),
             );
-          default:
-            if (snapshot.hasError)
-              return Center(
-                child: Text(Constants.DEFAULT_ERROR_STRING),
-              );
-            else {
-              final historicalTimelineCoronaModel =
-                  snapshot.data as HistoricalTimelineCoronaModel;
-
-              return GroupedCardViewHistoricalStats(
-                  historicalTimelineCoronaModel);
-            }
+            break;
+          case Status.COMPLETED:
+            return GroupedCardViewHistoricalStats(value.data);
+            break;
+          case Status.ERROR:
+            return Center(
+              child: Text(Constants.DEFAULT_ERROR_STRING),
+            );
+            break;
         }
+        return Container();
       },
     );
   }
