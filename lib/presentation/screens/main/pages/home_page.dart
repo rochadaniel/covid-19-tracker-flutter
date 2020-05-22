@@ -22,15 +22,26 @@ class _HomePageState extends State<HomePage> {
     return Container(
       color: Constants.foregroundColor,
       child: GetBuilder<MainController>(
+        init: MainController(
+            getCountriesCoronaDetailsUseCase: Get.find(),
+            getSavedCountryNameUseCase: Get.find(),
+            saveCountryNameUseCase: Get.find(),
+            getWorldCoronaDetailsUseCase: Get.find()
+        ),
+        initState: (_) {
+          print("**********[main_screen] MainController initState");
+          MainController.to.load();
+        },
         builder: (_) {
-          print("[home_page] MainController Builder");
-          var value = MainController.to.totalCoronaDetailsModelResponse;
+          var value = MainController.to.savedCountryResponse;
+          print("**********[home_page] MainController Builder: ${value.toString()}");
+
           switch (value.status) {
             case Status.LOADING:
               return _showLoadingView();
               break;
             case Status.COMPLETED:
-              return _showHomeView(value.data.savedCountry);
+              return _showHomeView(value.data);
               break;
             case Status.ERROR:
               return _showErrorView();
@@ -70,6 +81,14 @@ class _HomePageState extends State<HomePage> {
             GroupedCardViewDetails(
               countryCoronaModel: countryCoronaModel,
               isComplete: false,
+            ),
+            FlatButton(
+              onPressed: () {
+                Get.find<MainController>().load();
+              },
+              child: Text(
+                "Flat Button",
+              ),
             ),
             _buildHistoricalView(countryCoronaModel.country),
           ],

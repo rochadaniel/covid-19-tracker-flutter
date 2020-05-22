@@ -33,14 +33,14 @@ class _WorldPageState extends State<WorldPage> {
       color: Constants.foregroundColor,
       child: GetBuilder<MainController>(
         builder: (_) {
-          print("[search_page] MainController Builder");
-          var value = MainController.to.totalCoronaDetailsModelResponse;
+          var value = MainController.to.worldCoronaModelResponse;
+          print("**********[world_page] MainController Builder: ${value.toString()}");
           switch (value.status) {
             case Status.LOADING:
               return _showLoadingView();
               break;
             case Status.COMPLETED:
-              return _showCountriesView(value.data.worldCoronaModel);
+              return _showCountriesView(value.data);
               break;
             case Status.ERROR:
               return _showErrorView();

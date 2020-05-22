@@ -9,7 +9,7 @@ class Response<T> {
 
   @override
   String toString() {
-    return "Status : $status \n Message : $message \n Data : $data";
+    return "Status : $status";
   }
 }
 

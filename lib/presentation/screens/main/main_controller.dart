@@ -1,6 +1,5 @@
 import 'package:covid19app/domain/model/country_corona_model.dart';
 import 'package:covid19app/domain/model/response.dart';
-import 'package:covid19app/domain/model/total_corona_details_model.dart';
 import 'package:covid19app/domain/model/world_corona_model.dart';
 import 'package:covid19app/domain/usecase/get_countries_corona_details_usecase.dart';
 import 'package:covid19app/domain/usecase/get_saved_country_name_usecase.dart';
@@ -12,7 +11,9 @@ import 'package:get/get.dart';
 class MainController extends GetController {
   static MainController get to => Get.find();
 
-  Response<TotalCoronaDetailsModel> totalCoronaDetailsModelResponse;
+  Response<List<CountryCoronaModel>> countriesResponse;
+  Response<WorldCoronaModel> worldCoronaModelResponse;
+  Response<CountryCoronaModel> savedCountryResponse;
 
   final GetCountriesCoronaDetailsUseCase getCountriesCoronaDetailsUseCase;
   final GetSavedCountryNameUseCase getSavedCountryNameUseCase;
@@ -27,8 +28,11 @@ class MainController extends GetController {
   }) : super();
 
   void load() async {
-    print("[MainController - load] loading");
-    totalCoronaDetailsModelResponse = Response.loading();
+    print("==============[MainController - load] loading");
+    countriesResponse = Response.loading();
+    worldCoronaModelResponse = Response.loading();
+    savedCountryResponse = Response.loading();
+
     update(this);
 
     try {
@@ -37,7 +41,7 @@ class MainController extends GetController {
         getCountriesCoronaDetailsUseCase.call()
       ]);
 
-      print("[MainController - load] result: ${list.length}");
+      print("==============[MainController - load] result: ${list.length}");
 
       WorldCoronaModel worldCoronaModel = list[0];
       List<CountryCoronaModel> countriesCoronaModel = list[1];
@@ -51,20 +55,24 @@ class MainController extends GetController {
       }
 
       print(
-          "[MainController - load] Trying to find saved CountryName in countries list");
+          "==============[MainController - load] Trying to find saved CountryName in countries list");
       final savedCountry = countriesCoronaModel
           .firstWhere((item) => item.country == savedCountryName);
       print(
-          "[MainController - load] CountryName in countries list found with ${savedCountry.cases.toString()} cases");
+          "==============[MainController - load] CountryName in countries list found with ${savedCountry.cases.toString()} cases");
 
-      totalCoronaDetailsModelResponse = Response.completed(TotalCoronaDetailsModel(countriesCoronaModel, worldCoronaModel, savedCountry));
+      countriesResponse = Response.completed(countriesCoronaModel);
+      worldCoronaModelResponse = Response.completed(worldCoronaModel);
+      savedCountryResponse = Response.completed(savedCountry);
 
-      print("[MainController - load] SuccessState");
+      print("==============[MainController - load] SuccessState");
       update(this);
     } catch (error) {
-      totalCoronaDetailsModelResponse = Response.error(error.toString());
+      countriesResponse = Response.error(error.toString());
+      worldCoronaModelResponse = Response.error(error.toString());
+      savedCountryResponse = Response.error(error.toString());
 
-      print("[MainController - load] ErrorState: ${error.toString()}");
+      print("==============[MainController - load] ErrorState: ${error.toString()}");
       update(this);
     }
   }
